@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  repo_name: MyString
+  github_delivery_id: MyString
+  event_type: MyString
+  action: MyString
+  user: MyString
+  payload: 
+  occured_at: 2026-09-06 20:25:13
+
+two:
+  id: 1
+  repo_name: MyString
+  github_delivery_id: MyString
+  event_type: MyString
+  action: MyString
+  user: MyString
+  payload: 
+  occured_at: 2026-09-06 20:25:13
