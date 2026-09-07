@@ -1,5 +1,4 @@
 class WebhooksController < ApplicationController
-  # Webhooks come from GitHub, not a browser session — skip CSRF protection for this action
   skip_before_action :verify_authenticity_token, only: [:github]
 
   EVENT_TYPE_MAP = {
@@ -15,8 +14,6 @@ class WebhooksController < ApplicationController
     "closed" => "closed"
   }.freeze
 
-  MAILER_ALLOWLIST = %w[pull_request issue star].freeze
-
   def github
     raw_body = request.raw_post
 
@@ -29,13 +26,11 @@ class WebhooksController < ApplicationController
     payload      = JSON.parse(raw_body)
 
     event_type = EVENT_TYPE_MAP[github_event]
-
-    # Unrecognized event type (e.g. "ping", "watch") — acknowledge but don't store
     unless event_type
       head :ok and return
     end
 
-    event = Event.new(
+    event_attrs = {
       repo_full_name: payload.dig("repository", "full_name"),
       github_delivery_id: delivery_id,
       event_type: event_type,
@@ -43,17 +38,9 @@ class WebhooksController < ApplicationController
       actor: payload.dig("sender", "login"),
       payload: payload,
       occurred_at: Time.current
-    )
+    }
 
-    if event.save
-      RepoActivityMailer.new_event(event).deliver_now if MAILER_ALLOWLIST.include?(event_type)
-    elsif event.errors[:github_delivery_id].any?
-      # Duplicate delivery (GitHub retry) — not an error, just acknowledge
-      Rails.logger.info "Duplicate delivery #{delivery_id}, ignoring"
-    else
-      Rails.logger.warn "Event save failed: #{event.errors.full_messages}"
-    end
-
+    ProcessGithubEventJob.perform_later(event_attrs)
     head :ok
   rescue JSON::ParserError
     head :bad_request
