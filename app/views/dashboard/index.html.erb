@@ -1,152 +1,229 @@
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+  * { box-sizing: border-box; }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background: #0d1117;
-    color: #e6edf3;
-    padding: 48px;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #ffe9f3 0%, #fff0f5 40%, #fdf2ff 100%);
+    color: #6b4a5e;
+    padding: 56px 64px;
     margin: 0;
+    min-height: 100vh;
   }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    max-width: 1000px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0;
+    background: linear-gradient(90deg, #ff6fa5, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  h1::before {
+    content: "✨ ";
+  }
+
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #d6478a;
+    background: #ffe0ef;
+    border: 1px solid #ffb8d9;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff6fa5;
+    box-shadow: 0 0 8px #ff6fa5;
+    animation: pulse 1.6s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
   .layout {
     display: flex;
-    gap: 32px;
-    max-width: 960px;
+    gap: 28px;
+    max-width: 1000px;
+    align-items: flex-start;
   }
-  h1 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 28px;
-    color: #f0f6fc;
-    letter-spacing: -0.3px;
-  }
+
+  .main-col { flex: 1; min-width: 0; }
+  .sidebar { width: 260px; flex-shrink: 0; }
+
   h2 {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #8b949e;
-    margin: 0 0 14px 0;
+    letter-spacing: 0.8px;
+    color: #c98aa8;
+    margin: 0 0 16px 0;
   }
-  .main-col {
-    flex: 1;
-    min-width: 0;
-  }
-  .sidebar {
-    width: 240px;
-    flex-shrink: 0;
-  }
-  .event-feed {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+
+  .event-feed { list-style: none; padding: 0; margin: 0; }
+
   .event-item {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #ffd4e8;
+    border-radius: 16px;
     padding: 16px 20px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: border-color 0.15s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(255, 111, 165, 0.08);
   }
+
   .event-item:hover {
-    border-color: #58a6ff;
+    border-color: #ff9ecb;
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 111, 165, 0.18);
   }
+
   .event-type {
     display: inline-block;
-    background: rgba(88, 166, 255, 0.15);
-    color: #79c0ff;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.4px;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    padding: 3px 9px;
-    border-radius: 12px;
-    margin-right: 10px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    margin-right: 12px;
   }
-  .event-meta {
-    color: #8b949e;
-    font-size: 13.5px;
-  }
-  .event-meta strong {
-    color: #e6edf3;
-    font-weight: 600;
-  }
+
+  .event-type.star { background: #fff2c2; color: #b8860b; }
+  .event-type.issue { background: #ffd6e0; color: #d6336c; }
+  .event-type.pull_request { background: #d7f9e9; color: #2f9e6e; }
+  .event-type.push { background: #dce8ff; color: #5b7fd6; }
+  .event-type.fork { background: #ecdcff; color: #9b5de5; }
+
+  .event-meta { color: #a67792; font-size: 13.5px; }
+  .event-meta strong { color: #6b4a5e; font-weight: 600; }
+
   .event-time {
-    color: #6e7681;
-    font-size: 12.5px;
+    color: #d4a5bd;
+    font-size: 12px;
     white-space: nowrap;
     margin-left: 16px;
   }
-  .sidebar-card {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-    padding: 18px 20px;
-    margin-bottom: 20px;
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #c98aa8;
+    border: 1px dashed #ffb8d9;
+    border-radius: 16px;
+    font-size: 14px;
+    background: rgba(255,255,255,0.4);
   }
+
+  .sidebar-card {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #ffd4e8;
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 10px rgba(255, 111, 165, 0.08);
+  }
+
   .stat-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 7px 0;
+    padding: 8px 0;
     font-size: 13.5px;
   }
-  .stat-row .name {
-    color: #e6edf3;
-    display: flex;
-    align-items: center;
-  }
+
+  .stat-row .name { color: #6b4a5e; display: flex; align-items: center; }
+
   .avatar {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: #30363d;
-    margin-right: 8px;
+    background: linear-gradient(135deg, #ff9ecb, #c084fc);
+    margin-right: 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 10px;
-    font-weight: 600;
-    color: #79c0ff;
-  }
-  .stat-row .count {
-    color: #8b949e;
-    font-variant-numeric: tabular-nums;
-  }
-  .big-stat {
-    font-size: 28px;
     font-weight: 700;
-    color: #f0f6fc;
+    color: white;
   }
+
+  .stat-row .count {
+    color: #c98aa8;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .big-stat {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ff6fa5, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -1px;
+  }
+
   .big-stat-label {
-    color: #8b949e;
-    font-size: 13px;
-    margin-top: 2px;
+    color: #c98aa8;
+    font-size: 12.5px;
+    margin-top: 4px;
+    font-weight: 500;
   }
 </style>
 
 <meta http-equiv="refresh" content="10">
 
-<h1>Repo Activity</h1>
+<div class="header">
+  <h1>Repo Activity</h1>
+  <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+</div>
 
 <div class="layout">
   <div class="main-col">
-    <ul class="event-feed">
-      <% @events.each do |event| %>
-        <li class="event-item">
-          <div>
-            <span class="event-type"><%= event.event_type %></span>
-            <span class="event-meta">
-              <% if event.action.present? %>(<%= event.action %>)<% end %>
-              by <strong><%= event.actor %></strong> on <%= event.repo_full_name %>
-            </span>
-          </div>
-          <span class="event-time"><%= time_ago_in_words(event.occurred_at) %> ago</span>
-        </li>
-      <% end %>
-    </ul>
+    <% if @events.any? %>
+      <ul class="event-feed">
+        <% @events.each do |event| %>
+          <li class="event-item">
+            <div>
+              <span class="event-type <%= event.event_type %>"><%= event.event_type %></span>
+              <span class="event-meta">
+                <% if event.action.present? %>(<%= event.action %>)<% end %>
+                by <strong><%= event.actor %></strong> on <%= event.repo_full_name %>
+              </span>
+            </div>
+            <span class="event-time"><%= time_ago_in_words(event.occurred_at) %> ago</span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="empty-state">No activity yet — star, open an issue, or push to see it land here 🎀</div>
+    <% end %>
   </div>
 
   <div class="sidebar">
