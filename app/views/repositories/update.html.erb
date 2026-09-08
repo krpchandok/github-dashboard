@@ -1,2 +1,5 @@
-<h1>Repositories#update</h1>
-<p>Find me in app/views/repositories/update.html.erb</p>
+def update
+  @repository = Repository.find(params[:id])
+  @repository.update(about_params)
+  redirect_to repository_path(@repository, tab: "about")
+end
