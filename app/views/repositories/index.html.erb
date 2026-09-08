@@ -1,0 +1,78 @@
+<h1>Repositories#index</h1>
+<p>Find me in app/views/repositories/index.html.erb</p>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffe9f3 0%, #fff0f5 40%, #fdf2ff 100%);
+    color: #6b4a5e;
+    padding: 56px 64px;
+    margin: 0;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ff6fa5, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 32px;
+  }
+  .repo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+  }
+  .repo-card {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #ffd4e8;
+    border-radius: 18px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    box-shadow: 0 2px 10px rgba(255,111,165,0.08);
+    transition: all 0.2s ease;
+  }
+  .repo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255,111,165,0.2);
+    border-color: #ff9ecb;
+  }
+  .repo-name {
+    font-weight: 700;
+    font-size: 16px;
+    color: #d6478a;
+    margin-bottom: 6px;
+  }
+  .repo-desc {
+    font-size: 13px;
+    color: #a67792;
+    margin-bottom: 14px;
+    min-height: 18px;
+  }
+  .repo-stats {
+    display: flex;
+    gap: 14px;
+    font-size: 12.5px;
+    color: #c98aa8;
+  }
+</style>
+
+<h1>Repo Activity</h1>
+
+<div class="repo-grid">
+  <% @repositories.each do |repo| %>
+    <%= link_to repository_path(repo), class: "repo-card" do %>
+      <div class="repo-name"><%= repo.full_name %></div>
+      <div class="repo-desc"><%= repo.description.presence || "No description yet" %></div>
+      <div class="repo-stats">
+        <span><%= repo.language %></span>
+        <span><%= repo.stargazers_count %> stars</span>
+        <span><%= repo.events.count %> events</span>
+      </div>
+    <% end %>
+  <% end %>
+</div>

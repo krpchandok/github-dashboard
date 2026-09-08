@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_08_025955) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_032902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -28,6 +28,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_025955) do
   end
 
   create_table "repositories", force: :cascade do |t|
+    t.text "about"
     t.string "avatar_url"
     t.datetime "created_at", null: false
     t.string "default_branch"

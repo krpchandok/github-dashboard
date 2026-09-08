@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "repositories/index"
+  get "repositories/show"
+  get "repositories/update"
   get "dashboard/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   root "dashboard#index"
@@ -14,7 +17,20 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   Rails.application.routes.draw do
+  get "repositories/index"
+  get "repositories/show"
+  get "repositories/update"
   get "dashboard/index"
     post "/webhooks/github", to: "webhooks#github"
+  end
+
+  Rails.application.routes.draw do
+  get "repositories/index"
+  get "repositories/show"
+  get "repositories/update"
+    post "/webhooks/github", to: "webhooks#github"
+
+    root "repositories#index"
+    resources :repositories, only: [:index, :show, :update]
   end
 end
