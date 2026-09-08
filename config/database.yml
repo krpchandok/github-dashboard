@@ -4,13 +4,23 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: webhooks_development
+  primary:
+    <<: *default
+    database: webhooks_development
+  queue:
+    <<: *default
+    database: webhooks_development
+    migrations_paths: db/queue_migrate
 
 test:
   <<: *default
   database: webhooks_test
 
 production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
+  primary:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+  queue:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    migrations_paths: db/queue_migrate
