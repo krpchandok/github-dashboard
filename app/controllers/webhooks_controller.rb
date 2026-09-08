@@ -40,7 +40,7 @@ class WebhooksController < ApplicationController
       occurred_at: Time.current
     }
 
-    ProcessGithubEventJob.perform_later(event_attrs)
+    ProcessGithubEventJob.perform_later(event_attrs, payload["repository"])
     head :ok
   rescue JSON::ParserError
     head :bad_request

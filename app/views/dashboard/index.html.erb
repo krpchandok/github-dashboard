@@ -195,6 +195,19 @@
     margin-top: 4px;
     font-weight: 500;
   }
+  .repo-cards { display: flex; flex-direction: column; gap: 24px; }
+  .repo-card {
+    background: rgba(255,255,255,0.75);
+    border: 1px solid #ffd4e8;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 2px 10px rgba(255, 111, 165, 0.08);
+  }
+  .repo-card-header { display: flex; gap: 12px; margin-bottom: 12px; }
+  .repo-avatar { width: 40px; height: 40px; border-radius: 50%; }
+  .repo-name { font-weight: 700; color: #d6478a; text-decoration: none; font-size: 15px; }
+  .repo-desc { color: #a67792; font-size: 13px; margin: 2px 0 0; }
+  .repo-meta { display: flex; gap: 16px; color: #c98aa8; font-size: 12px; margin-bottom: 14px; }
 </style>
 
 <meta http-equiv="refresh" content="10">
@@ -254,5 +267,40 @@
         </div>
       <% end %>
     </div>
+    <div class="repo-cards">
+  <% @repositories.each do |repo| %>
+    <div class="repo-card">
+      <div class="repo-card-header">
+        <% if repo.avatar_url.present? %>
+          <img src="<%= repo.avatar_url %>" class="repo-avatar" alt="">
+        <% end %>
+        <div>
+          <a href="<%= repo.html_url %>" target="_blank" class="repo-name"><%= repo.full_name %></a>
+          <p class="repo-desc"><%= repo.description.presence || "No description" %></p>
+        </div>
+      </div>
+      <div class="repo-meta">
+        <span><%= repo.language %></span>
+        <span>★ <%= repo.stargazers_count %></span>
+        <span><%= repo.events.count %> events tracked</span>
+      </div>
+
+      <ul class="event-feed">
+        <% repo.events.order(occurred_at: :desc).limit(10).each do |event| %>
+          <li class="event-item">
+            <div>
+              <span class="event-type <%= event.event_type %>"><%= event.event_type %></span>
+              <span class="event-meta">
+                <% if event.action.present? %>(<%= event.action %>)<% end %>
+                by <strong><%= event.actor %></strong>
+              </span>
+            </div>
+            <span class="event-time"><%= time_ago_in_words(event.occurred_at) %> ago</span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
   </div>
 </div>

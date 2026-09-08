@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_07_002513) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_025955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,5 +25,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_07_002513) do
     t.string "repo_full_name", null: false
     t.datetime "updated_at", null: false
     t.index ["github_delivery_id"], name: "index_events_on_github_delivery_id", unique: true
+  end
+
+  create_table "repositories", force: :cascade do |t|
+    t.string "avatar_url"
+    t.datetime "created_at", null: false
+    t.string "default_branch"
+    t.string "description"
+    t.string "full_name", null: false
+    t.string "html_url"
+    t.string "language"
+    t.integer "stargazers_count", default: 0
+    t.datetime "updated_at", null: false
+    t.index ["full_name"], name: "index_repositories_on_full_name", unique: true
   end
 end
