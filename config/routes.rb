@@ -4,5 +4,10 @@ Rails.application.routes.draw do
   post "/webhooks/github", to: "webhooks#github"
 
   root "repositories#index"
-  resources :repositories, only: [:index, :show, :update]
+
+  resources :repositories, only: [:index, :show, :update] do
+    collection do
+      post :sync
+    end
+  end
 end

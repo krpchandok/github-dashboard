@@ -1,29 +1,41 @@
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
   * { box-sizing: border-box; }
   body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffe9f3 0%, #fff0f5 40%, #fdf2ff 100%);
-    color: #6b4a5e;
-    padding: 56px 64px;
+    font-family: 'Quicksand', sans-serif;
+    background: #fef6fa;
+    color: #6b5768;
+    padding: 64px 72px;
     margin: 0;
   }
   .back-link {
-    color: #c98aa8;
+    color: #c9a8bd;
     text-decoration: none;
     font-size: 13px;
-    display: inline-block;
-    margin-bottom: 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+  .back-link:hover { color: #b06a99; }
+  .title-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .title-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffc2dd;
+    box-shadow: 6px 2px 0 #c9b8f5, -4px 8px 0 #b8e8d8;
   }
   h1 {
     font-size: 26px;
-    font-weight: 800;
-    color: #d6478a;
-    margin: 0 0 28px 0;
+    font-weight: 700;
+    color: #7a5c74;
+    margin: 0;
   }
   .layout {
     display: flex;
-    gap: 28px;
+    gap: 24px;
     max-width: 1100px;
     align-items: flex-start;
   }
@@ -34,13 +46,13 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    color: #c98aa8;
+    color: #c9a8bd;
     margin: 0 0 14px 0;
   }
   .event-item {
-    background: rgba(255,255,255,0.75);
-    border: 1px solid #ffd4e8;
-    border-radius: 14px;
+    background: #ffffff;
+    border: 2px solid #fce4f0;
+    border-radius: 18px;
     padding: 14px 18px;
     margin-bottom: 10px;
     display: flex;
@@ -49,67 +61,100 @@
     font-size: 13.5px;
   }
   .event-type {
-    background: #fff2c2;
-    color: #b8860b;
+    background: #f5ecfc;
+    color: #8a67b8;
     font-weight: 700;
     font-size: 10.5px;
     text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
+    padding: 4px 12px;
+    border-radius: 999px;
     margin-right: 10px;
   }
   .card {
-    background: rgba(255,255,255,0.8);
-    border: 1px solid #ffd4e8;
-    border-radius: 16px;
-    padding: 20px 22px;
+    background: #ffffff;
+    border: 2px solid #fce4f0;
+    border-radius: 22px;
+    padding: 22px;
     margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #fdeaf3;
+    opacity: 0.6;
   }
   .contributor-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 8px 0;
     font-size: 13.5px;
+    position: relative;
   }
   .avatar {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: linear-gradient(135deg, #ff9ecb, #c084fc);
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #d6c6f7;
     display: inline-flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: white;
-    margin-right: 8px;
+    font-size: 10.5px; font-weight: 700; color: #7a5c99;
+    margin-right: 10px;
+  }
+  .count-pill {
+    background: #fdf1f7;
+    color: #c9a8bd;
+    font-size: 11.5px;
+    padding: 3px 10px;
+    border-radius: 999px;
   }
   textarea {
     width: 100%;
     min-height: 120px;
-    border-radius: 12px;
-    border: 1px solid #ffd4e8;
+    border-radius: 16px;
+    border: 2px solid #fce4f0;
     padding: 14px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 13.5px;
-    color: #6b4a5e;
-    background: rgba(255,255,255,0.9);
+    color: #6b5768;
+    background: #fffafd;
     resize: vertical;
+    position: relative;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: #f6a8cf;
   }
   .save-btn {
-    margin-top: 10px;
-    background: linear-gradient(90deg, #ff6fa5, #c084fc);
-    color: white;
+    margin-top: 12px;
+    background: #ffd9ec;
+    color: #b06a99;
     border: none;
-    padding: 9px 20px;
-    border-radius: 20px;
+    padding: 10px 22px;
+    border-radius: 999px;
     font-weight: 600;
     font-size: 13px;
+    font-family: 'Quicksand', sans-serif;
     cursor: pointer;
+    position: relative;
   }
-  .empty { color: #c98aa8; font-size: 13px; }
+  .save-btn:hover { background: #ffcbe3; }
+  .empty { color: #c9a8bd; font-size: 13px; }
 </style>
 
 <%= link_to "← Back to repos", root_path, class: "back-link" %>
-<h1><%= @repository.full_name %></h1>
+<div class="title-wrap">
+  <div class="title-dot"></div>
+  <h1><%= @repository.full_name %></h1>
+</div>
 
 <div class="layout">
   <div class="main-col">
-    <h2>Recent Activity</h2>
+    <h2>Recent activity</h2>
     <% if @events.any? %>
       <% @events.each do |event| %>
         <div class="event-item">
@@ -117,7 +162,7 @@
             <span class="event-type"><%= event.event_type %></span>
             by <strong><%= event.actor %></strong>
           </div>
-          <span><%= time_ago_in_words(event.occurred_at) %> ago</span>
+          <span class="empty"><%= time_ago_in_words(event.occurred_at) %> ago</span>
         </div>
       <% end %>
     <% else %>
@@ -132,7 +177,7 @@
         <% @contributors.each do |actor, count| %>
           <div class="contributor-row">
             <span><span class="avatar"><%= actor.first.upcase %></span><%= actor %></span>
-            <span><%= count %></span>
+            <span class="count-pill"><%= count %></span>
           </div>
         <% end %>
       <% else %>
