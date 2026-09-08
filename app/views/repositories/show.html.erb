@@ -19,30 +19,23 @@
     font-size: 26px;
     font-weight: 800;
     color: #d6478a;
-    margin: 0 0 24px 0;
+    margin: 0 0 28px 0;
   }
-  .tabs {
+  .layout {
     display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
+    gap: 28px;
+    max-width: 1100px;
+    align-items: flex-start;
   }
-  .tab {
-    padding: 8px 18px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: 13.5px;
-    font-weight: 600;
+  .main-col { flex: 1.4; min-width: 0; }
+  .side-col { flex: 1; min-width: 280px; }
+  h2 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
     color: #c98aa8;
-    background: rgba(255,255,255,0.6);
-    border: 1px solid #ffd4e8;
-  }
-  .tab.active {
-    background: linear-gradient(90deg, #ff6fa5, #c084fc);
-    color: white;
-    border-color: transparent;
-  }
-  .panel {
-    max-width: 700px;
+    margin: 0 0 14px 0;
   }
   .event-item {
     background: rgba(255,255,255,0.75);
@@ -52,6 +45,7 @@
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 13.5px;
   }
   .event-type {
@@ -64,73 +58,95 @@
     border-radius: 20px;
     margin-right: 10px;
   }
+  .card {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #ffd4e8;
+    border-radius: 16px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
   .contributor-row {
     display: flex;
     justify-content: space-between;
-    background: rgba(255,255,255,0.75);
-    border: 1px solid #ffd4e8;
-    border-radius: 14px;
-    padding: 14px 18px;
-    margin-bottom: 10px;
+    padding: 8px 0;
+    font-size: 13.5px;
+  }
+  .avatar {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff9ecb, #c084fc);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: white;
+    margin-right: 8px;
   }
   textarea {
     width: 100%;
-    min-height: 160px;
-    border-radius: 14px;
+    min-height: 120px;
+    border-radius: 12px;
     border: 1px solid #ffd4e8;
-    padding: 16px;
+    padding: 14px;
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: 13.5px;
     color: #6b4a5e;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
     resize: vertical;
   }
   .save-btn {
-    margin-top: 12px;
+    margin-top: 10px;
     background: linear-gradient(90deg, #ff6fa5, #c084fc);
     color: white;
     border: none;
-    padding: 10px 22px;
+    padding: 9px 20px;
     border-radius: 20px;
     font-weight: 600;
+    font-size: 13px;
     cursor: pointer;
   }
+  .empty { color: #c98aa8; font-size: 13px; }
 </style>
 
 <%= link_to "← Back to repos", root_path, class: "back-link" %>
 <h1><%= @repository.full_name %></h1>
 
-<div class="tabs">
-  <%= link_to "Activity", repository_path(@repository, tab: "activity"), class: "tab #{'active' if @tab == 'activity'}" %>
-  <%= link_to "Contributors", repository_path(@repository, tab: "contributors"), class: "tab #{'active' if @tab == 'contributors'}" %>
-  <%= link_to "About", repository_path(@repository, tab: "about"), class: "tab #{'active' if @tab == 'about'}" %>
-</div>
-
-<div class="panel">
-  <% if @tab == "activity" %>
-    <% @events.each do |event| %>
-      <div class="event-item">
-        <div>
-          <span class="event-type"><%= event.event_type %></span>
-          by <strong><%= event.actor %></strong>
+<div class="layout">
+  <div class="main-col">
+    <h2>Recent Activity</h2>
+    <% if @events.any? %>
+      <% @events.each do |event| %>
+        <div class="event-item">
+          <div>
+            <span class="event-type"><%= event.event_type %></span>
+            by <strong><%= event.actor %></strong>
+          </div>
+          <span><%= time_ago_in_words(event.occurred_at) %> ago</span>
         </div>
-        <span><%= time_ago_in_words(event.occurred_at) %> ago</span>
-      </div>
+      <% end %>
+    <% else %>
+      <p class="empty">No activity yet.</p>
     <% end %>
+  </div>
 
-  <% elsif @tab == "contributors" %>
-    <% @contributors.each do |actor, count| %>
-      <div class="contributor-row">
-        <span><%= actor %></span>
-        <span><%= count %> events</span>
-      </div>
-    <% end %>
+  <div class="side-col">
+    <div class="card">
+      <h2>Contributors</h2>
+      <% if @contributors.any? %>
+        <% @contributors.each do |actor, count| %>
+          <div class="contributor-row">
+            <span><span class="avatar"><%= actor.first.upcase %></span><%= actor %></span>
+            <span><%= count %></span>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="empty">No contributors yet.</p>
+      <% end %>
+    </div>
 
-  <% elsif @tab == "about" %>
-    <%= form_with model: @repository, local: true do |f| %>
-      <%= f.text_area :about, placeholder: "Write something about this project..." %>
-      <br>
-      <%= f.submit "Save", class: "save-btn" %>
-    <% end %>
-  <% end %>
+    <div class="card">
+      <h2>About</h2>
+      <%= form_with model: @repository, local: true do |f| %>
+        <%= f.text_area :about, placeholder: "Write something about this project..." %>
+        <br>
+        <%= f.submit "Save", class: "save-btn" %>
+      <% end %>
+    </div>
+  </div>
 </div>

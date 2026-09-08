@@ -65,7 +65,7 @@
   <% @repositories.each do |repo| %>
     <%= link_to repository_path(repo), class: "repo-card" do %>
       <div class="repo-name"><%= repo.full_name %></div>
-      <div class="repo-desc"><%= repo.description.presence || "No description yet" %></div>
+      <div class="repo-desc"><%= repo.about.presence || repo.description.presence || "No description yet" %></div>
       <div class="repo-stats">
         <span><%= repo.language %></span>
         <span><%= repo.stargazers_count %> stars</span>
